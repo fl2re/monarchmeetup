@@ -26,7 +26,7 @@
         android:layout_below="@+id/ivLogo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
-
+<!--comment-->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="280dp"
