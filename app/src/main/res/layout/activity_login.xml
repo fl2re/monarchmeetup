@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorPrimary"
+    tools:context="emerald411.com.monarchmeetup.LoginActivity">
+
+    <!-- Hey this is a comment. -->
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/tvMonarchMeetup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monarch Meet-Up"
+        android:textColor="@android:color/white"
+        android:textSize="34sp"
+        android:layout_below="@+id/ivLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:hint="ODU Email"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_below="@+id/tvMonarchMeetup"
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#909090"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:hint="Password"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_below="@+id/etEmail"
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#909090"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tvLoginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:text="LOGIN"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/etPassword"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/tvRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="Need an account? Click here to register."
+        android:layout_marginBottom="8dp"/>
+
+</RelativeLayout>
