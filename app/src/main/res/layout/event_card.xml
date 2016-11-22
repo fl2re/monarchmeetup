@@ -5,24 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:background="@android:color/white"
     card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/tvEventNameCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This is a sample event"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:textColor="@android:color/black"/>
 
         <TextView
@@ -32,15 +30,27 @@
             android:textColor="#909090"
             android:text="8"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_below="@+id/tvEventNameCard"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/tvDateCard"
+            android:background="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/tvTimeCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7:00pm"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_alignParentRight="true"/>
 
         <TextView
@@ -50,7 +60,10 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvTimeCard"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textColor="@android:color/black"
+            android:paddingLeft="16dp"
             android:text="Fri, January 17th"/>
 
     </RelativeLayout>
