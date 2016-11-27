@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:singleLine="true"
+            android:inputType="textPassword"
             android:hint="Password" />
 
     </android.support.design.widget.TextInputLayout>
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:singleLine="true"
+            android:inputType="textPassword"
             android:hint="Retype Password" />
 
     </android.support.design.widget.TextInputLayout>

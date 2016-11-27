@@ -7,6 +7,7 @@ package emerald411.com.monarchmeetup;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -16,7 +17,14 @@ import retrofit2.http.Query;
 
 public interface JsonApiConnections {
 
+    @GET("login/{userName}")
+    Call<UserModel> checkUser(@Path("userName") String userName);
+
+    @GET("events")
+    Call<EventModel> getEvents();
+
     @POST("users")
+    Call<UserModel> submitNewUser(@Body UserModel user);
 //    @Headers("X-API-KEY: 0ec69a8e86b311e963d45e85b133aa75")
 //    @GET("listings")
 //    Call<ListingsObject> getListingsByCity(@Query("locale") String locale,
