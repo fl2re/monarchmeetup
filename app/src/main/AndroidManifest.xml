@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".EventDetailsActivity" />
+        <activity android:name=".CreateEventActivity" />
         <activity android:name=".UserActivity"></activity>
     </application>
 

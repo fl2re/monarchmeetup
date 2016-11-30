@@ -24,4 +24,13 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tabLayout"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_add"
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
+
 </RelativeLayout>

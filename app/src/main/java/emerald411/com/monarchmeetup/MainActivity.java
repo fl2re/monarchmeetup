@@ -1,5 +1,6 @@
 package emerald411.com.monarchmeetup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -12,10 +13,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements EventPagerFragmen
         tabLayout.addTab(tabLayout.newTab().setText("Entertainment"));
         tabLayout.addTab(tabLayout.newTab().setText("Greek"));
 
-        getEvents();
-
     }
 
     private void getEvents() {
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements EventPagerFragmen
                 FragmentManager manager = getSupportFragmentManager();
 
                 //object of PagerAdapter passing fragment manager object as a parameter of constructor of PagerAdapter class.
-                PagerAdapter adapter = new PagerAdapter(manager, response.body());
+                PagerAdapter adapter = new PagerAdapter(manager, response.body(), getSharedPreferences("secrets", Context.MODE_PRIVATE));
 
                 //set Adapter to view pager
                 viewPager.setAdapter(adapter);
@@ -84,10 +86,18 @@ public class MainActivity extends AppCompatActivity implements EventPagerFragmen
     }
 
     @Override
-    public void onFragmentInteraction(String eventId) {
+    public void onFragmentInteraction(EventModel event) {
         Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
-        detailsIntent.putExtra("id", eventId);
+        Gson gson = new Gson();
+        detailsIntent.putExtra("event", gson.toJson(event));
         startActivity(detailsIntent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getEvents();
     }
 
     @Override
@@ -110,7 +120,13 @@ public class MainActivity extends AppCompatActivity implements EventPagerFragmen
     }
 
     private void showProfile() {
-
+        Intent intent = new Intent(this, UserActivity.class);
+        startActivity(intent);
     }
 
+    @OnClick(R.id.btnAdd)
+    public void showCreateEvent() {
+        Intent intent = new Intent(this, CreateEventActivity.class);
+        startActivity(intent);
+    }
 }

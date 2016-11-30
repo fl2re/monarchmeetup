@@ -1,6 +1,7 @@
 package emerald411.com.monarchmeetup;
 
 
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -16,9 +17,12 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private List<EventModel> allEvents, sportEvents, entertainmentEvents, greekEvents;
 
-    public PagerAdapter(FragmentManager fm, List<EventModel> events) {
+    private SharedPreferences sPref;
+
+    public PagerAdapter(FragmentManager fm, List<EventModel> events, SharedPreferences sPref) {
         super(fm);
 
+        this.sPref = sPref;
         this.allEvents = events;
         categorizeEvents();
     }
@@ -41,8 +45,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 frag = EventPagerFragment.newInstance(greekEvents);
                 break;
             case 4:
-                frag = EventPagerFragment.newInstance(allEvents);
-                ((EventPagerFragment)frag).usePersonalEvents();
+                List<EventModel> filteredEvents = filterEvents();
+                frag = EventPagerFragment.newInstance(filteredEvents);
+                break;
             default:
                 break;
         }
@@ -100,5 +105,18 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
             }
         }
+    }
+
+    private List<EventModel> filterEvents() {
+        List<EventModel> temp = new ArrayList<EventModel>();
+
+        String savedData = sPref.getString("ids", "");
+
+        for(int i = 0; i < allEvents.size(); i++) {
+            if(savedData.contains(allEvents.get(i).getId()))
+                temp.add(allEvents.get(i));
+        }
+
+        return temp;
     }
 }

@@ -45,9 +45,9 @@ public class UserActivity extends AppCompatActivity {
         user = gson.fromJson(sPref.getString("userInfo", ""), UserModel.class);
 
         tvUsername.setText(user.getUsername());
-        tvAttended.setText(user.getAttended());
-        tvCreated.setText(user.getCreated());
-        tvPoints.setText(user.getPoints());
+        tvAttended.setText(String.valueOf(user.getAttended()));
+        tvCreated.setText(String.valueOf(user.getCreated()));
+        tvPoints.setText(String.valueOf(user.getPoints()));
 
         if(!user.getDescription().isEmpty())
             tvUserDescription.setText(user.getDescription());

@@ -28,6 +28,8 @@ public class EventPagerFragment extends Fragment {
 
     private EventListAdapter adapter;
 
+    private SharedPreferences sPref;
+
     public EventPagerFragment() {
         // Required empty public constructor
     }
@@ -59,24 +61,12 @@ public class EventPagerFragment extends Fragment {
         lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                mListener.onFragmentInteraction(events.get(position).getId());
+                mListener.onFragmentInteraction(events.get(position));
             }
         });
 
         // Inflate the layout for this fragment
         return view;
-    }
-
-    public void usePersonalEvents() {
-        SharedPreferences sPref = getActivity().getSharedPreferences("secrets", Context.MODE_PRIVATE);
-        String savedData = sPref.getString("ids", "");
-
-        for(int i = 0; i < events.size(); i++) {
-            if(!savedData.contains(events.get(i).getId()))
-                events.remove(i);
-        }
-
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -111,7 +101,7 @@ public class EventPagerFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnEventClickListener {
-        void onFragmentInteraction(String eventId);
+        void onFragmentInteraction(EventModel event);
     }
 
 }

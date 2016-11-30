@@ -47,7 +47,6 @@ public class EventDetailsActivity extends AppCompatActivity {
     private EventModel event;
     private boolean isSignedUp;
     private SharedPreferences sPref;
-    private String eventID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,35 +55,12 @@ public class EventDetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Bundle bundle = getIntent().getExtras();
-        eventID = bundle.getString("id");
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://emerald-cs411.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        JsonApiConnections REST_CLIENT = retrofit.create(JsonApiConnections.class);
-
-        Call<EventModel> call;
-
-        call = REST_CLIENT.getEvent(eventID);
-        call.enqueue(new Callback<EventModel>() {
-            @Override
-            public void onResponse(Call<EventModel> call, Response<EventModel> response) {
-                event = response.body();
-
-                displayData();
-            }
-
-            @Override
-            public void onFailure(Call<EventModel> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Could not retrieve event data.", Toast.LENGTH_LONG).show();
-            }
-
-        });
+        Gson gson = new Gson();
+        event = gson.fromJson(bundle.getString("event"), EventModel.class);
 
         sPref = getSharedPreferences("secrets", Context.MODE_PRIVATE);
 
-        if(sPref.getString("ids", "").contains(eventID)) {
+        if(sPref.getString("ids", "").contains(event.getId())) {
             btnSignup.setText("Cancel Attendence");
             btnPassword.setVisibility(View.VISIBLE);
             isSignedUp = true;
@@ -93,15 +69,21 @@ public class EventDetailsActivity extends AppCompatActivity {
             isSignedUp = false;
         }
 
+        displayData();
     }
 
     private void displayData() {
-        tvAttendees.setText("0");
+        tvAttendees.setText(String.valueOf(event.getAttendence()));
         tvDetails.setText(event.getDescription());
         tvEventDate.setText(event.getDateString());
-        tvLocation.setText("Quad in front of Strome Center");
+        tvLocation.setText(event.getLocation());
         tvTime.setText(event.getTime());
         tvEventName.setText(event.getName());
+
+        Gson gson = new Gson();
+        UserModel user = gson.fromJson(sPref.getString("userInfo", ""), UserModel.class);
+        if(user.getAttendedEvents().contains(event.getId()))
+            attendedEvent();
     }
 
     @OnClick(R.id.btnSignUp)
@@ -120,25 +102,21 @@ public class EventDetailsActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        String savedData = sPref.getString("ids", "") + "-" + eventID;
+        String savedData = sPref.getString("ids", "") + "-" + event.getId();
         sPref.edit().putString("ids", savedData).commit();
-
-        //PUT request to edit attendence value
     }
 
     private void unregisterUser() {
         String savedData = sPref.getString("ids", "");
         System.out.println("DATA: " + savedData);
-        savedData = savedData.replace("-" + eventID, "");
+        savedData = savedData.replace("-" + event.getId(), "");
         sPref.edit().putString("ids", savedData).commit();
         System.out.println("DATA: " + savedData);
-
-        //PUT request to remove attendence value
     }
 
     @OnClick(R.id.btnPassword)
     public void checkPassword() {
-// get prompts.xml view
+
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.password_prompt, null);
 
@@ -164,6 +142,8 @@ public class EventDetailsActivity extends AppCompatActivity {
                                     UserModel user = gson.fromJson(sPref.getString("userInfo", ""), UserModel.class);
                                     user.setAttended(user.getAttended() + 1);
                                     user.setPoints(user.getPoints() + 3);
+                                    user.setAttendedEvents(user.getAttendedEvents() + "-" + event.getId());
+                                    attendedEvent();
                                     sPref.edit().putString("userInfo", gson.toJson(user)).apply();
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Incorrect password.", Toast.LENGTH_LONG).show();
@@ -183,5 +163,10 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         // show it
         alertDialog.show();
+    }
+
+    private void attendedEvent() {
+        btnPassword.setVisibility(View.GONE);
+        btnSignup.setText("Event Attended.");
     }
 }

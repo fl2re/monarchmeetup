@@ -52,9 +52,10 @@ class EventListAdapter extends ArrayAdapter<EventModel> {
 
             tvName = (TextView) v.findViewById(R.id.tvEventNameCard);
             tvDate = (TextView) v.findViewById(R.id.tvDateCard);
+            tvTime = (TextView) v.findViewById(R.id.tvTimeCard);
 
             tvName.setText(events.get(position).getName());
-//            tvTime.setText(events.get(position).getTime());
+            tvTime.setText(events.get(position).getTime());
             tvDate.setText(events.get(position).getDateString());
         }
 

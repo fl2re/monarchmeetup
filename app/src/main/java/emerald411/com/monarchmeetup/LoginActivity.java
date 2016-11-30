@@ -1,6 +1,8 @@
 package emerald411.com.monarchmeetup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +59,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                         if(response.body().getUsername().toLowerCase().equals(etUsername.getText().toString().toLowerCase()) &&
                                 response.body().getPassword().toLowerCase().equals(etPassword.getText().toString().toLowerCase())) {
+                            SharedPreferences sPref = getSharedPreferences("secrets", Context.MODE_PRIVATE);
+                            Gson gson = new Gson();
+                            UserModel user = gson.fromJson(sPref.getString("userInfo", ""), UserModel.class);
+                            if(user == null)
+                                user = new UserModel();
+                            user.setUsername(etUsername.getText().toString());
+                            sPref.edit().putString("userInfo", gson.toJson(user)).apply();
+
                             Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(mainActivityIntent);
                         } else {

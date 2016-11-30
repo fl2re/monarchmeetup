@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import java.util.Random;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +48,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+        ButterKnife.bind(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.Categories, android.R.layout.simple_spinner_item);
@@ -54,6 +56,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
 
     @OnClick(R.id.Create)
@@ -82,11 +85,12 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         event.setId(String.valueOf(generateId()));
         event.setTime(etTime.getText().toString());
 
-        call = REST_CLIENT.saveEvents();
+        call = REST_CLIENT.saveEvents(event);
         call.enqueue(new Callback<EventModel>() {
             @Override
             public void onResponse(Call<EventModel> call, Response<EventModel> response) {
                 if(response.code() == 201) {
+                    System.out.println(response.body());
                     Toast.makeText(getApplicationContext(), "You saved an event!", Toast.LENGTH_LONG).show();
                     registerUser(event.getId());
                 } else {
@@ -109,7 +113,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        type = "";
+
     }
 
     private int generateId() {

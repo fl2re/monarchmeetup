@@ -20,12 +20,14 @@ public class UserModel {
     private int points;
     private int attended;
     private int created;
+    private String attendedEvents;
 
     public UserModel() {
         points = 0;
         description = "";
         attended = 0;
         created = 0;
+        attendedEvents = "";
     }
 
     public String getEmail() {
@@ -82,5 +84,13 @@ public class UserModel {
 
     public void setCreated(int created) {
         this.created = created;
+    }
+
+    public String getAttendedEvents() {
+        return attendedEvents;
+    }
+
+    public void setAttendedEvents(String attendedEvents) {
+        this.attendedEvents = attendedEvents;
     }
 }

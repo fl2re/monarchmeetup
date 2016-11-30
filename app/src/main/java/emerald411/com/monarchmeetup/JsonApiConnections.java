@@ -6,6 +6,7 @@ package emerald411.com.monarchmeetup;
 
 import java.util.List;
 
+import butterknife.Bind;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -27,7 +28,7 @@ public interface JsonApiConnections {
     Call<List<EventModel>> getEvents();
 
     @POST("events")
-    Call<EventModel> saveEvents();
+    Call<EventModel> saveEvents(@Body EventModel event);
 
     @POST("users")
     Call<UserModel> submitNewUser(@Body UserModel user);
