@@ -26,6 +26,9 @@ public interface JsonApiConnections {
     @GET("events")
     Call<List<EventModel>> getEvents();
 
+    @POST("events")
+    Call<EventModel> saveEvents();
+
     @POST("users")
     Call<UserModel> submitNewUser(@Body UserModel user);
 

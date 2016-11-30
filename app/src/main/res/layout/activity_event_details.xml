@@ -18,7 +18,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Buttonß
+    <Button
         android:text="Enter Event Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +32,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:visibility="gone"/>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -165,7 +166,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="80dp"
             android:id="@+id/TVeventDetails" />
-
 
     </RelativeLayout>
     </ScrollView>

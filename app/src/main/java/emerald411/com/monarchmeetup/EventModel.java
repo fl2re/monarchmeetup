@@ -30,7 +30,13 @@ public class EventModel {
     @SerializedName("type")
     private String type;
 
+    @SerializedName("time")
     private String time;
+    @SerializedName("password")
+    private String password;
+
+    @SerializedName("attendence")
+    private int attendence;
 
     public EventModel() {}
 
@@ -85,5 +91,21 @@ public class EventModel {
 
     public void setType(@Nullable String type) {
         this.type = type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public int getAttendence() {
+        return attendence;
+    }
+
+    public void setAttendence(int attendence) {
+        this.attendence = attendence;
     }
 }

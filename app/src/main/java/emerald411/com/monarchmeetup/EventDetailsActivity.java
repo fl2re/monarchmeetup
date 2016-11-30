@@ -1,14 +1,20 @@
 package emerald411.com.monarchmeetup;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -128,5 +134,54 @@ public class EventDetailsActivity extends AppCompatActivity {
         System.out.println("DATA: " + savedData);
 
         //PUT request to remove attendence value
+    }
+
+    @OnClick(R.id.btnPassword)
+    public void checkPassword() {
+// get prompts.xml view
+        LayoutInflater li = LayoutInflater.from(this);
+        View promptsView = li.inflate(R.layout.password_prompt, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText userInput = (EditText) promptsView
+                .findViewById(R.id.editTextDialogUserInput);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                if(userInput.getText().toString().equals(event.getPassword())) {
+                                    Toast.makeText(getApplicationContext(), "Successful, points have been added.", Toast.LENGTH_LONG).show();
+
+                                    Gson gson = new Gson();
+                                    UserModel user = gson.fromJson(sPref.getString("userInfo", ""), UserModel.class);
+                                    user.setAttended(user.getAttended() + 1);
+                                    user.setPoints(user.getPoints() + 3);
+                                    sPref.edit().putString("userInfo", gson.toJson(user)).apply();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Incorrect password.", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }

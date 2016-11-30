@@ -42,7 +42,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 break;
             case 4:
                 frag = EventPagerFragment.newInstance(allEvents);
-                frag.use
+                ((EventPagerFragment)frag).usePersonalEvents();
             default:
                 break;
         }

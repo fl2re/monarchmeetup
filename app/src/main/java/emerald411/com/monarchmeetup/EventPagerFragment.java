@@ -17,15 +17,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EventPagerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EventPagerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EventPagerFragment extends Fragment {
 
     @Bind(R.id.lvEvents)
@@ -76,6 +67,18 @@ public class EventPagerFragment extends Fragment {
         return view;
     }
 
+    public void usePersonalEvents() {
+        SharedPreferences sPref = getActivity().getSharedPreferences("secrets", Context.MODE_PRIVATE);
+        String savedData = sPref.getString("ids", "");
+
+        for(int i = 0; i < events.size(); i++) {
+            if(!savedData.contains(events.get(i).getId()))
+                events.remove(i);
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -111,15 +114,4 @@ public class EventPagerFragment extends Fragment {
         void onFragmentInteraction(String eventId);
     }
 
-    public void usePersonalEvents() {
-        SharedPreferences sPref = getActivity().getSharedPreferences("secrets", Context.MODE_PRIVATE);
-        String savedData = sPref.getString("ids", "");
-
-        for(int i = 0; i < events.size(); i++) {
-            if(!savedData.contains(events.get(i).getId()))
-                events.remove(i);
-        }
-
-        adapter.notifyDataSetChanged();
-    }
 }

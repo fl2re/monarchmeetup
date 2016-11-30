@@ -16,6 +16,18 @@ public class UserModel {
     @SerializedName("password")
     private String password;
 
+    private String description;
+    private int points;
+    private int attended;
+    private int created;
+
+    public UserModel() {
+        points = 0;
+        description = "";
+        attended = 0;
+        created = 0;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -38,5 +50,37 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getAttended() {
+        return attended;
+    }
+
+    public void setAttended(int attended) {
+        this.attended = attended;
+    }
+
+    public int getCreated() {
+        return created;
+    }
+
+    public void setCreated(int created) {
+        this.created = created;
     }
 }
