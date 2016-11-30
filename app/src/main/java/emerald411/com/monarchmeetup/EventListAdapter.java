@@ -5,6 +5,7 @@ package emerald411.com.monarchmeetup;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +25,10 @@ import butterknife.ButterKnife;
 
 class EventListAdapter extends ArrayAdapter<EventModel> {
 
-    @Bind(R.id.tvEventNameCard)
     TextView tvName;
-    @Bind(R.id.tvTimeCard)
     TextView tvTime;
-    @Bind(R.id.tvDateCard)
     TextView tvDate;
+    Context context;
 
     private List<EventModel> events;
 
@@ -40,27 +39,26 @@ class EventListAdapter extends ArrayAdapter<EventModel> {
     public EventListAdapter(Context context, int resource, List<EventModel> events) {
         super(context, resource, events);
 
-        this.events = new ArrayList<>();
+        this.events = events;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
         if (v == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.event_card, null);
 
-//            tvName.setText(events.get(position).getName());
+            tvName = (TextView) v.findViewById(R.id.tvEventNameCard);
+            tvDate = (TextView) v.findViewById(R.id.tvDateCard);
+
+            tvName.setText(events.get(position).getName());
 //            tvTime.setText(events.get(position).getTime());
-//            tvDate.setText(events.get(position).getDateString());
+            tvDate.setText(events.get(position).getDateString());
         }
 
         return v;
     }
 
-    @Override
-    public int getCount() {
-        return 10;
-    }
 }

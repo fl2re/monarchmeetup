@@ -1,6 +1,7 @@
 package emerald411.com.monarchmeetup;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -33,6 +35,8 @@ public class EventPagerFragment extends Fragment {
 
     private OnEventClickListener mListener;
 
+    private EventListAdapter adapter;
+
     public EventPagerFragment() {
         // Required empty public constructor
     }
@@ -49,6 +53,7 @@ public class EventPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        adapter = new EventListAdapter(getActivity(), R.layout.event_card, events);
     }
 
     @Override
@@ -58,7 +63,14 @@ public class EventPagerFragment extends Fragment {
 
         lvEvents = (ListView) view.findViewById(R.id.lvEvents);
 
-        lvEvents.setAdapter(new EventListAdapter(getActivity(), R.layout.event_card, events));
+        lvEvents.setAdapter(adapter);
+
+        lvEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mListener.onFragmentInteraction(events.get(position).getId());
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
@@ -97,5 +109,17 @@ public class EventPagerFragment extends Fragment {
      */
     public interface OnEventClickListener {
         void onFragmentInteraction(String eventId);
+    }
+
+    public void usePersonalEvents() {
+        SharedPreferences sPref = getActivity().getSharedPreferences("secrets", Context.MODE_PRIVATE);
+        String savedData = sPref.getString("ids", "");
+
+        for(int i = 0; i < events.size(); i++) {
+            if(!savedData.contains(events.get(i).getId()))
+                events.remove(i);
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }

@@ -26,6 +26,10 @@ public class EventModel {
     @SerializedName("createDate")
     private String dateString;
 
+    @Nullable
+    @SerializedName("type")
+    private String type;
+
     private String time;
 
     public EventModel() {}
@@ -72,5 +76,14 @@ public class EventModel {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    @Nullable
+    public String getType() {
+        return type;
+    }
+
+    public void setType(@Nullable String type) {
+        this.type = type;
     }
 }
